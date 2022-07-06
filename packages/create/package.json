@@ -9,9 +9,7 @@
 		"url": "https://github.com/BlueFrog130/mcaddon",
 		"directory": "packages/create"
 	},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
+	"scripts": {},
 	"keywords": [],
 	"license": "MIT",
 	"type": "module",
