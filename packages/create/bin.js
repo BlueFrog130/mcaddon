@@ -1,4 +1,4 @@
-#!user/bin/env node
+#!/user/bin/env node
 import fs from 'fs';
 import prompts from 'prompts';
 import { bold, red, cyan, green } from 'kleur/colors';
