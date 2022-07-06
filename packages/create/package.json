@@ -1,0 +1,16 @@
+{
+	"name": "@mcaddon/create",
+	"version": "0.1.0",
+	"description": "Used for initializing a new project",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"license": "MIT",
+	"type": "module",
+	"devDependencies": {
+		"kleur": "^4.1.5",
+		"prompts": "^2.4.2"
+	}
+}

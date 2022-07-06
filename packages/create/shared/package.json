@@ -1,0 +1,16 @@
+{
+	"name": "~NAME~",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "mcaddon build",
+		"build:min": "mcaddon build -m",
+		"watch": "mcaddon build -w",
+		"package": "mcaddon package"
+	},
+	"devDependencies": {
+		"@mcaddon/kit": "^0.1.0",
+		"@types/mojang-gametest": "^0.1.5",
+		"@types/mojang-minecraft": "^0.1.6"
+	},
+	"type": "module"
+}
