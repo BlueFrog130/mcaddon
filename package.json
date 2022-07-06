@@ -2,7 +2,6 @@
 	"name": "mcaddon",
 	"version": "0.0.1",
 	"description": "CLI for creating, bundling, and building Minecraft Gametest packs",
-	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/BlueFrog130/mcaddon"
