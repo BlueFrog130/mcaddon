@@ -1,4 +1,4 @@
-#!/user/bin/env node
+#!/usr/bin/env node
 
 import fs from 'fs';
 import prompts from 'prompts';
