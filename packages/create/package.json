@@ -1,5 +1,5 @@
 {
-	"name": "@mcaddon/create",
+	"name": "create-mcaddon",
 	"version": "0.1.0",
 	"description": "Used for initializing a new project",
 	"main": "./index.js",
