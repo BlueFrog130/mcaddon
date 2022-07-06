@@ -1,14 +1,25 @@
 {
 	"name": "mcaddon",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"description": "CLI for creating, bundling, and building Minecraft Gametest packs",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BlueFrog130/mcaddon"
 	},
+	"homepage": "https://github.com/BlueFrog130/mcaddon",
+	"bugs": {
+		"url": "https://github.com/BlueFrog130/mcaddon/issues"
+	},
+	"scripts": {},
 	"keywords": [],
 	"license": "MIT",
 	"devDependencies": {
 		"prettier": "^2.7.1"
-	}
+	},
+	"packageManager": "pnpm@7.5.0",
+	"engines": {
+		"pnpm": "^7.0.0"
+	},
+	"type": "module"
 }

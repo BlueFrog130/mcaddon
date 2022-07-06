@@ -1,10 +1,15 @@
 {
 	"name": "@mcaddon/kit",
 	"version": "0.1.0",
-	"description": "",
+	"description": "Handles building, packaging, and copying an mcaddon project",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BlueFrog130/mcaddon",
+		"directory": "packages/kit"
+	},
+	"homepage": "https://github.com/BlueFrog130/mcaddon",
 	"scripts": {},
 	"keywords": [],
-	"author": "",
 	"license": "MIT",
 	"type": "module",
 	"devDependencies": {
@@ -16,5 +21,10 @@
 	},
 	"bin": {
 		"mcaddon": "bin.js"
-	}
+	},
+	"files": [
+		"bin.js",
+		"index.js",
+		"util.js"
+	]
 }
