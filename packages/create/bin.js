@@ -78,7 +78,7 @@ if (relative !== '') {
 console.log(`${bold(cyan('  npm install'))} (or pnpm install, etc)`);
 console.log(
 	`${bold(
-		cyan('  npm run build -w')
+		cyan('  npm run watch')
 	)} starts watching for changes and copies pack to development packs`
 );
 

@@ -31,12 +31,12 @@ Builds and copies all assets over to `development_*_packs`.
 npm run build
 ```
 
-### Dev
+### Watch
 
 Builds and copies all assets over to `development_*_packs`. Then watches for changes and rebuilds whenever any file gets changed.
 
 ```bash
-npm run dev
+npm run watch
 ```
 
 ### Package
