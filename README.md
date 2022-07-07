@@ -11,6 +11,43 @@ Super fast way to generate a Minecraft Addon project.
 - 🔑 Full TypeScript Support
 - 🎨 Generate Resource Pack
 
+## Getting Started
+
+Quickest way to get started:
+
+```bash
+npm init mcaddon my-addon
+cd my-addon
+npm install # or pnpm install, yarn, etc.
+npm run dev
+```
+
+### Build
+
+Builds and copies all assets over to `development_*_resources`.
+
+```bash
+npm run build
+```
+
+### Dev
+
+Builds and copies all assets over to `development_*_resources`. Then watches for changes and rebuilds whenever any file gets changed.
+
+```bash
+npm run dev
+```
+
+
+### Package
+
+Bundles behaviors and resources and packages them into an `.mcaddon` file.
+
+
+```bash
+npm run package
+```
+
 ## Packages
 
 | Package                           |
