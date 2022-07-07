@@ -10,6 +10,7 @@ Super fast way to generate a Minecraft Addon project.
 - 💻 GameTest Integration
 - 🔑 Full TypeScript Support
 - 🎨 Generate Resource Pack
+- ⚡ Incredibly fast builds
 
 ## Getting Started
 
@@ -24,7 +25,7 @@ npm run dev
 
 ### Build
 
-Builds and copies all assets over to `development_*_resources`.
+Builds and copies all assets over to `development_*_packs`.
 
 ```bash
 npm run build
@@ -32,12 +33,11 @@ npm run build
 
 ### Dev
 
-Builds and copies all assets over to `development_*_resources`. Then watches for changes and rebuilds whenever any file gets changed.
+Builds and copies all assets over to `development_*_packs`. Then watches for changes and rebuilds whenever any file gets changed.
 
 ```bash
 npm run dev
 ```
-
 
 ### Package
 

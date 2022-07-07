@@ -1,6 +1,6 @@
 {
 	"name": "@mcaddon/kit",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "Handles building, packaging, and copying an mcaddon project",
 	"repository": {
 		"type": "git",
@@ -12,7 +12,7 @@
 	"keywords": [],
 	"license": "MIT",
 	"type": "module",
-	"devDependencies": {
+	"dependencies": {
 		"chokidar": "^3.5.3",
 		"esbuild": "^0.14.48",
 		"kleur": "^4.1.5",
