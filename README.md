@@ -62,8 +62,9 @@ npm run package
 - [x] GameTest integration
 - [ ] Mac/Linux support
 - [ ] Dedicated Server support
-- [ ] Schema Support
+- [x] Schema Support (via VSCode plugin)
 - [ ] mcaddon lang (use JS/TS to create packs)
+- [ ] Config file to customize directories
 
 ## License
 
