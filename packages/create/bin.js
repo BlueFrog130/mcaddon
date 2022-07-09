@@ -44,18 +44,30 @@ if (fs.existsSync(cwd) && fs.readdirSync(cwd).length > 0) {
 const options = await prompts(
 	[
 		{
-			name: 'typescript',
-			type: 'toggle',
-			message: 'Use TypeScript?',
-			initial: true,
+			name: 'template',
+			type: 'select',
+			message: 'Select a pack type',
+			choices: [
+				{ title: 'Resource', value: 'resources' },
+				{ title: 'Behavior', value: 'behaviors' },
+				{ title: 'both', value: 'both' },
+			],
+		},
+		{
+			name: 'gametest',
+			type: (prev) =>
+				prev === 'behaviors' || prev === 'both' ? 'toggle' : null,
+			message: 'Add GameTest support?',
+			initial: false,
 			active: 'Yes',
 			inactive: 'No',
 		},
 		{
-			name: 'resource',
-			type: 'toggle',
-			initial: false,
-			message: 'Add resource pack?',
+			name: 'typescript',
+			type: (prev, { gametest }) =>
+				gametest && prev === true ? 'toggle' : null,
+			message: 'Use TypeScript?',
+			initial: true,
 			active: 'Yes',
 			inactive: 'No',
 		},
@@ -67,7 +79,7 @@ options.name = path.basename(path.resolve(cwd));
 
 await create(cwd, options);
 
-console.log(`${bold(green('Done!'))}`);
+console.log(`${bold(green('\nDone!'))}`);
 
 console.log('\nNext steps:');
 const relative = path.relative(process.cwd(), cwd);
