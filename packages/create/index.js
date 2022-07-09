@@ -11,8 +11,8 @@ export async function create(dir, options) {
 	mkdirp(dir);
 
 	if (options.template === 'both') {
-		writeTemplate('rp', dir);
-		writeTemplate('bp', dir);
+		writeTemplate('resources', dir);
+		writeTemplate('behaviors', dir);
 	} else {
 		writeTemplate(options.template, dir);
 	}
