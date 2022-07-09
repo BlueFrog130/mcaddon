@@ -63,12 +63,12 @@ async function copyToMinecraft(cwd, name) {
  * @param {string} cwd
  */
 function copyToTmp(cwd) {
-	const resources = resolve(cwd, 'resources');
+	const resources = resolve(cwd, 'rp');
 	if (existsSync(resources)) {
 		copy(resources, resolve(cwd, mckit.resources));
 	}
 
-	const behaviors = resolve(cwd, 'behaviors');
+	const behaviors = resolve(cwd, 'bp');
 	if (existsSync(behaviors)) {
 		copy(behaviors, resolve(cwd, mckit.behaviors));
 
@@ -113,7 +113,7 @@ async function gtBuild({ watch, minify, cwd, name, copy }) {
 		console.log(`${bold(green('Build complete, watching for changes'))}`);
 
 		chokidar
-			.watch(['resources', 'behaviors', 'scripts'], { ignoreInitial: true })
+			.watch(['rp', 'bp', 'scripts'], { ignoreInitial: true })
 			.on('all', async (event, path) => {
 				switch (event) {
 					case 'add':

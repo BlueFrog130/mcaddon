@@ -48,8 +48,8 @@ const options = await prompts(
 			type: 'select',
 			message: 'Select a pack type',
 			choices: [
-				{ title: 'Resource', value: 'resources' },
-				{ title: 'Behavior', value: 'behaviors' },
+				{ title: 'Resource', value: 'rp' },
+				{ title: 'Behavior', value: 'bp' },
 				{ title: 'both', value: 'both' },
 			],
 		},
