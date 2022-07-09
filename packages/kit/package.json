@@ -1,6 +1,6 @@
 {
 	"name": "@mcaddon/kit",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Handles building, packaging, and copying an mcaddon project",
 	"repository": {
 		"type": "git",

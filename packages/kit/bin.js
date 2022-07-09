@@ -3,7 +3,8 @@
 import fs from 'fs';
 import path from 'path';
 import sade from 'sade';
-import { gtBuild as build, zip } from './index.js';
+import { build, zip } from './index.js';
+import { bold } from 'kleur/colors';
 
 const { version, name } = JSON.parse(
 	fs.readFileSync(path.join(process.cwd(), './package.json'), 'utf-8')
@@ -17,7 +18,6 @@ prog
 	.option('-m, --minify', 'Minifies output')
 	.option('-w, --watch', 'Watches for changes')
 	.action(async ({ watch, minify }) => {
-		console.log('building...');
 		await build({
 			watch,
 			minify,
@@ -41,6 +41,8 @@ prog
 		});
 
 		await zip(process.cwd(), name);
+
+		console.log(`$\n${bold(green(`Packaged ${name} in .mckit directory!`))}`);
 	});
 
 prog.parse(process.argv);

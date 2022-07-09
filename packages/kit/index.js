@@ -5,7 +5,7 @@ import { rm } from 'fs/promises';
 import { copy } from './util.js';
 import { basename, resolve } from 'path';
 import { bold, red, green, blue, cyan } from 'kleur/colors';
-import { arch, homedir } from 'os';
+import { homedir } from 'os';
 import chokidar from 'chokidar';
 import archiver from 'archiver';
 
@@ -28,78 +28,67 @@ const mckit = {
 
 /**
  * @param {string} cwd
- * @param {string} outdir
  * @param {string} name
- * @param {boolean} shouldCopy
  */
-export async function copyToMinecraft(cwd, outdir, name, shouldCopy) {
-	const resources = resolve(cwd, 'resources');
-	const behaviors = resolve(cwd, 'behaviors');
-	const scripts = resolve(cwd, mckit.scripts);
-
-	const resourcesOut = resolve(cwd, mckit.resources);
-	const behaviorsOut = resolve(cwd, mckit.behaviors);
-
+async function copyToMinecraft(cwd, name) {
 	// moving resources
+	const resources = resolve(cwd, mckit.resources);
 	if (existsSync(resources)) {
-		copy(resources, resourcesOut);
+		const minecraftResourceDir = resolve(
+			minecraftDir,
+			'development_resource_packs',
+			`${name} - resources`
+		);
 
-		if (shouldCopy) {
-			const minecraftResourceDir = resolve(
-				minecraftDir,
-				'development_resource_packs',
-				`${name} - resources`
-			);
-
-			await rm(minecraftResourceDir, { recursive: true, force: true });
-			copy(resourcesOut, minecraftResourceDir);
-		}
+		await rm(minecraftResourceDir, { recursive: true, force: true });
+		copy(resources, minecraftResourceDir);
 	}
 
 	// moving behaviors
+	const behaviors = resolve(cwd, mckit.behaviors);
 	if (existsSync(behaviors)) {
-		copy(behaviors, behaviorsOut);
+		const minecraftBehaviorDir = resolve(
+			minecraftDir,
+			'development_behavior_packs',
+			`${name} - behaviors`
+		);
 
-		// copying scripts into behaviors
-		if (existsSync(scripts)) {
-			copy(scripts, resolve(behaviorsOut, 'scripts'));
+		await rm(minecraftBehaviorDir, { recursive: true, force: true });
+		copy(behaviors, minecraftBehaviorDir);
+	}
+}
 
-			if (shouldCopy) {
-				const minecraftBehaviorDir = resolve(
-					minecraftDir,
-					'development_behavior_packs',
-					`${name} - behaviors`
-				);
-
-				await rm(minecraftBehaviorDir, { recursive: true, force: true });
-				copy(behaviorsOut, minecraftBehaviorDir);
-			}
-		}
+/**
+ * Copies everything to temp kit directory
+ * @param {string} cwd
+ */
+function copyToTmp(cwd) {
+	const resources = resolve(cwd, 'resources');
+	if (existsSync(resources)) {
+		copy(resources, resolve(cwd, mckit.resources));
 	}
 
-	if (shouldCopy) {
-		console.log(bold(green('Copy Successful')));
+	const behaviors = resolve(cwd, 'behaviors');
+	if (existsSync(behaviors)) {
+		copy(behaviors, resolve(cwd, mckit.behaviors));
+
+		const scripts = resolve(cwd, mckit.scripts);
+		if (existsSync(scripts)) {
+			copy(scripts, resolve(mckit.behaviors, 'scripts'));
+		}
 	}
 }
 
 /**
  * @param {{ watch: boolean, minify: boolean, cwd: string, name: string, copy: boolean }} options
  */
-export async function gtBuild({ watch, minify, cwd, name, copy }) {
+async function gtBuild({ watch, minify, cwd, name, copy }) {
+	const hasScripts = existsSync(resolve(cwd, 'scripts'));
+
 	// Getting entry file
 	const entry = existsSync(resolve(cwd, 'scripts/index.ts'))
 		? resolve(cwd, 'scripts/index.ts')
 		: resolve(cwd, 'scripts/index.js');
-
-	// Ensuring existence
-	if (!existsSync(entry)) {
-		console.log(`${bold(red('Error'))} Missing entrypoint!`);
-		process.exit(1);
-	}
-
-	const outdir = resolve(cwd, mckit.base);
-	const resources = resolve(cwd, 'resources');
-	const behaviors = resolve(cwd, 'behaviors');
 
 	/** @type {import('esbuild').BuildOptions} */
 	const baseOptions = {
@@ -114,52 +103,44 @@ export async function gtBuild({ watch, minify, cwd, name, copy }) {
 	/** @type {import('esbuild').BuildResult} */
 	let result;
 	if (watch) {
-		result = await build({
-			...baseOptions,
-			incremental: true,
-			watch: {
-				onRebuild(error, result) {
-					if (error) {
-						return console.log(
-							`${bold(red('Error'))} ${error.name}: ${error.message}`
-						);
-					}
-
-					console.clear();
-
-					console.log(`${bold(blue('Rebuilding'))}`);
-
-					if (copy) {
-						copyToMinecraft(cwd, outdir, name, copy);
-					}
-				},
-			},
-		});
+		if (hasScripts) {
+			result = await build({
+				...baseOptions,
+				incremental: true,
+			});
+		}
 
 		console.log(`${bold(green('Build complete, watching for changes'))}`);
 
 		chokidar
-			.watch([resources, behaviors], { ignoreInitial: true })
-			.on('all', (event, path) => {
+			.watch(['resources', 'behaviors', 'scripts'], { ignoreInitial: true })
+			.on('all', async (event, path) => {
 				switch (event) {
 					case 'add':
 					case 'change':
 						console.log(
 							`${bold(cyan(event === 'add' ? 'Added' : 'Changed'))} ${path}`
 						);
-						result.rebuild();
+						await result.rebuild();
+						copyToTmp(cwd);
 						if (copy) {
-							copyToMinecraft(cwd, outdir, name, copy);
+							await copyToMinecraft(cwd, name);
 						}
 						break;
 				}
 			});
 	} else {
-		result = await build(baseOptions);
+		if (hasScripts) {
+			result = await build(baseOptions);
+		}
 		console.log(`${bold(green('Build Successful'))}`);
 	}
 
-	await copyToMinecraft(cwd, outdir, name, copy);
+	copyToTmp(cwd);
+
+	if (copy) {
+		await copyToMinecraft(cwd, name);
+	}
 }
 
 export async function zip(cwd, name) {
@@ -221,3 +202,5 @@ function pack(cwd, dir) {
 		archive.finalize();
 	});
 }
+
+export { gtBuild as build };
